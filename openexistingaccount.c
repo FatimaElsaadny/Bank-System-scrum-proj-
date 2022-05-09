@@ -13,7 +13,6 @@ typedef struct clientaccount
   char full_address[150];
   // char National_id[15];
   int National_id;
-
   char guardian_National_id[15];
   int age;
   int account_number;
@@ -37,22 +36,20 @@ typedef struct List
   ClientNode *head;
 } List;
 
-List *pl;
-
 /**********************************************/
 /**************Function ProtoTypes ************/
 /**********************************************/
 
 void create_new_account();
 void Open_Existing_Account();
-void Make_Transaction(clientaccount *clnt);
-void Change_Account_Status(clientaccount *clnt);
+void Make_Transaction(clientaccount *clnt, List *pl);
+void Change_Account_Status(clientaccount *clnt, List *pl);
 void Get_Cash(clientaccount *clnt);
 
 void Deposit_in_Account(clientaccount *clnt);
 
-void admin_main_menu();
-void Return_to_admin_main_menu();
+void admin_main_menu(List *pl);
+void Return_to_admin_main_menu(List *pl);
 
 void List_voidInit(List *pl);
 void List_voidInsertList(int pos, List *pl, ClientNode *val);
@@ -64,12 +61,31 @@ void create_new_account();
 int main()
 {
 
+  printf("hello asmaa");
+
+  List *pl;
+  printf("hello asmaa");
   List_voidInit(pl);
-  admin_main_menu();
+  printf("hello alaa");
+
+  clientaccount *asma;
+  strcpy(asma->full_address,"ASmaa saaed sadd" );
+  asma->age=20;
+  asma->balance=9000;
+  asma->National_id=90;
+  strcpy(asma->status,"Active" );
+
+  ClientNode *newn;
+  newn->data=asma;
+  newn->Next=NULL;
+List_voidInsertList(0,pl,newn);
+  
+
+  // admin_main_menu(pl);
   return 0;
 }
 
-void Open_Existing_Account(int rgst)
+void Open_Existing_Account(int rgst, List *pl)
 {
 
   int feat_no;
@@ -86,10 +102,10 @@ void Open_Existing_Account(int rgst)
   switch (feat_no)
   {
   case 1:
-    Make_Transaction(&clnt);
+    Make_Transaction(&clnt, pl);
     break;
   case 2:
-    Change_Account_Status(&clnt);
+    Change_Account_Status(&clnt, pl);
     break;
   case 3:
     Get_Cash(&clnt);
@@ -97,7 +113,7 @@ void Open_Existing_Account(int rgst)
     Deposit_in_Account(&clnt);
     break;
   case 5:
-    Return_to_admin_main_menu();
+    Return_to_admin_main_menu(pl);
     break;
   default:
     printf("please enter valid number");
@@ -105,13 +121,16 @@ void Open_Existing_Account(int rgst)
   }
 }
 
-void Make_Transaction(clientaccount *clnt)
+void Make_Transaction(clientaccount *clnt, List *pl)
 {
   int to_id;
   int mny_amnt;
   printf("Welcome! pls enter the Bank Account ID you want to transfer money to:..");
   scanf("%d", &to_id);
+
   clientaccount *rcv;
+  List_voidRetriveList(to_id, pl, rcv);
+
   //  should verify this id
 
   printf("Thank you -_-, pls enter amount of money to transfer it to the this account ! ");
@@ -136,10 +155,11 @@ void Make_Transaction(clientaccount *clnt)
     printf("the accounts are not active please activate them to complete this action:(");
   }
   getchar();
-  Open_Existing_Account(1);
+  Open_Existing_Account(1, pl);
 }
 
-void Change_Account_Status(clientaccount *clnt)
+
+void Change_Account_Status(clientaccount *clnt, List *pl)
 {
   printf("PLS choose the number of the Bank Account Status, you want for this account");
   printf("1- Set Account to Active State\nSet Account to Restricted State\n 3- Set Account to Closed\n");
@@ -162,7 +182,7 @@ void Change_Account_Status(clientaccount *clnt)
     break;
   }
   getchar();
-  Open_Existing_Account(1);
+  Open_Existing_Account(1, pl);
 }
 
 void Get_Cash(clientaccount *clnt)
@@ -193,7 +213,7 @@ void Deposit_in_Account(clientaccount *clnt)
   printf("Done!");
 }
 
-void admin_main_menu()
+void admin_main_menu(List *pl)
 {
   int current_feature = 0;
   printf("\t\t\tSystem Main Menu\t\t\t");
@@ -204,17 +224,17 @@ void admin_main_menu()
   scanf("%d", &current_feature);
   if (current_feature == 1)
   {
-    create_new_account(&pl);
+    create_new_account(pl);
   }
   else if (current_feature == 2)
   {
-    Open_Existing_Account(0);
+    Open_Existing_Account(0, pl);
   }
 }
 
-void Return_to_admin_main_menu()
+void Return_to_admin_main_menu(List *pl)
 {
-  admin_main_menu();
+  admin_main_menu(pl);
 }
 
 clientaccount *get_pointer_to_clint_by_ID(int id)
@@ -232,7 +252,7 @@ void List_voidInsertList(int pos, List *pl, ClientNode *val)
 {
 
   ClientNode *pn;
-  pn= val;
+  pn = val;
   // pn->Next = NULL;
   if (pos == 0)
   {
