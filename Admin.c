@@ -18,7 +18,8 @@ typedef struct Person
     char National_id[15];
     char guardian_National_id[15];
     int age;
-    int account_
+    int account_number;
+    int account_passowrd;
 
 } person;
 
