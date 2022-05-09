@@ -24,6 +24,10 @@ typedef struct clientaccount
 
 int clnt_id;
 
+/**********************************************/
+/************** Linked list ************/
+/**********************************************/
+
 typedef struct ClientNode
 {
   clientaccount *data;
@@ -54,6 +58,11 @@ clientaccount *List_voidRetriveList(int pos, List *pl, clientaccount *clnt);
 clientaccount *get_pointer_to_clint_by_ID(int id);
 void print_client_acc(clientaccount *c);
 void create_new_account();
+
+int validName(char[]);
+/**********************************************/
+/************** Main Function ************/
+/**********************************************/
 
 int main(char *argv[])
 {
@@ -97,6 +106,80 @@ int main(char *argv[])
   return 0;
 }
 
+/**********************************************/
+/**************Functions difinition ************/
+/**********************************************/
+
+void create_new_account(List *pl)
+{
+
+  clientaccount *newclientacc;
+  printf("\t\t\tWelcom to IMT BANK\t\t ");
+
+  //******** clint Name **********
+  printf("Pls enter your fullName:   ");
+  scanf("%c", newclientacc->full_name);
+  if (newclientacc->full_name)
+
+    printf("Pls enter your address:   ");
+  scanf("%c", newclientacc->full_address);
+
+  printf("Pls enter your nationID:   ");
+  scanf("%d", &(newclientacc->National_id));
+
+  printf("Pls enter your Age:   ");
+  scanf("%d", &(newclientacc->age));
+
+  if (newclientacc->age < 21)
+  {
+    printf("Pls enter your Guardian:   ");
+    scanf("%c", newclientacc->guardian_National_id);
+  }
+  printf("Pls enter your Status:   ");
+
+  scanf("%c", newclientacc->status);
+
+  newclientacc->balance = 0;
+  newclientacc->account_passowrd = rand();
+
+  ClientNode *newnode;
+  newnode->data = newclientacc;
+  newnode->Next = NULL;
+  List_voidInsertList(0, pl, newnode);
+}
+
+//**********************************
+
+char *trimString(char *str)
+{
+  char *end;
+
+  while (isspace((unsigned char)*str))
+    str++;
+
+  if (*str == 0)
+    return str;
+
+  end = str + strlen(str) - 1;
+  while (end > str && isspace((unsigned char)*end))
+    end--;
+
+  end[1] = '\0';
+
+  return str;
+}
+
+//**********************************
+
+int validName(char[] name)
+{
+  mname = trimString(name) int nspace = 0 for (i = 0; i < strlen(mname); i++)
+  {
+    if (mname[i] == " ")
+  }
+
+  return 0;
+}
 /**********************************************/
 /**********************************************/
 clientaccount *clnt;
@@ -311,7 +394,6 @@ void List_voidInsertList(int pos, List *pl, ClientNode *val)
   if (pos == 0)
   {
 
-    
     ClientNode *tmp;
     tmp = pl->head;
     pl->head = pn;
@@ -344,36 +426,3 @@ void print_client_acc(clientaccount *c)
 
 /**********************************************/
 /**********************************************/
-
-// void create_new_account(List *pl)
-// {
-
-//   clientaccount *newclientacc;
-//   printf("Pls enter your fullName:   ");
-//   scanf("%c", newclientacc->full_name);
-//   printf("Pls enter your address:   ");
-//   scanf("%c", newclientacc->full_address);
-
-//   printf("Pls enter your nationID:   ");
-//   scanf("%d", &(newclientacc->National_id));
-
-//   printf("Pls enter your Age:   ");
-//   scanf("%d", &(newclientacc->age));
-
-//   if (newclientacc->age < 21)
-//   {
-//     printf("Pls enter your Guardian:   ");
-//     scanf("%c", newclientacc->guardian_National_id);
-//   }
-//   printf("Pls enter your Status:   ");
-
-//   scanf("%c", newclientacc->status);
-
-//   newclientacc->balance = 0;
-//   newclientacc->account_passowrd = rand();
-
-//   ClientNode *newnode;
-//   newnode->data = newclientacc;
-//   newnode->Next = NULL;
-//   List_voidInsertList(0, pl, newnode);
-// }
