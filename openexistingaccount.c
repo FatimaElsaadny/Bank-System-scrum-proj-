@@ -173,9 +173,14 @@ char *trimString(char *str)
 
 int validName(char[] name)
 {
-  mname = trimString(name) int nspace = 0 for (i = 0; i < strlen(mname); i++)
+  char[] mname = trimString(name);
+  int nspace = 0;
+  for (i = 0; i < strlen(mname); i++)
   {
     if (mname[i] == " ")
+    {
+      nspace += 1;
+    }
   }
 
   return 0;
