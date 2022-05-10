@@ -12,7 +12,7 @@ void create_new_account();
 void trim(char *s);
 // int validName(char &name);
 int validNationalID(long long nid);
-long long genAccID();
+long long genAccNumber();
 long long genAccpass();
 // ***************************************************** //
 //*************** Struct declaration **************** //
@@ -27,7 +27,7 @@ typedef struct clientaccount
 {
     char full_name[150];
     char *full_address;
-    int National_id;
+    long long National_id;
     char guardian_National_id;
     int age;
     int account_number;
@@ -59,14 +59,7 @@ int main()
     char name[] = "fat****ima Massoud";
     printf("%s \n", name);
 
-    long long nid = 98050700000179;
-    validNationalID(nid);
-
-    printf("\n Account Id: %d", genAccID());
-    printf("\n Account password: %d", genAccpass());
-    // account_Status = Active
-    STATUS status = Closed;
-    printf("\nStatus: %d", status);
+    create_new_account();
     return 0;
 }
 
@@ -138,7 +131,7 @@ int validNationalID(long long nid)
 
 //************************************
 // Generate Account Id
-long long genAccID()
+long long genAccNumber()
 {
     long long number;
     long long lower = 1000000000, upper = 9999999999;
@@ -164,7 +157,63 @@ long long genAccpass()
 
 void create_new_account()
 {
-    person p;
+    clientaccount newAcc;
+    printf("\n\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+");
+    printf("\n\t\t\t******Welcome to IMT Bank System******\t\t\n");
+
+    // Read Name
+    char name[150];
+
+    printf("Please Enter your Full Name:");
+    scanf("%s", name);
+    printf("your name is: %s", name);
+    // newAcc.full_name = name;
+    // printf("From struct your name is: %s", newAcc.full_name);
+
+    // strcpy(newAcc.full_name, name);
+
+    // ####################
+
+    // Read Address
+    //  char *name;
+    //  scanf("Please Enter your Full Name: %s", name);
+    //  newAcc.full_address
+
+    // Read National id
+    long long nid;
+    do
+    {
+        printf("\nPlease Enter Valid national Id:");
+        scanf("%lld", &nid);
+        printf("%lld\n", nid);
+    } while (validNationalID(nid) == 0);
+    newAcc.National_id = nid;
+
+    // Read Age
+    int age;
+    printf("\nPlease Enter your Age:");
+    scanf("%d", &age);
+    newAcc.age = age;
+
+    // Read Guardian nId if age <21
+    if (age < 21)
+    {
+        do
+        {
+            printf("\nPlease Enter a valid Guardian national Id:");
+            scanf("%lld", &nid);
+
+        } while (validNationalID(nid) == 0);
+        newAcc.guardian_National_id = nid;
+    }
+
+    newAcc.status = Active;
+    newAcc.balance = 0;
+    newAcc.account_number = genAccNumber();
+    newAcc.account_passowrd = genAccpass();
+
+    printf("\n\t\t**********Account created Successfully:)*********");
+    printf("\n\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+");
 }
 
 // ******************************
